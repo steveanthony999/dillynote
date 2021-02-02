@@ -1,8 +1,12 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useAuth } from '../contexts/AuthContext';
+
+import Alert from '../utils/Alert';
 
 const Nav = styled.nav`
   width: 100vw;
@@ -59,14 +63,59 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const StyledP = styled.p`
+  color: var(--color-secondary-light);
+  margin-right: 1rem;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+`;
+
+const StyledName = styled(Link)`
+  text-decoration: none;
+  color: var(--color-secondary-light);
+  margin-right: 1rem;
+  font-size: 2rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
+  const [error, setError] = useState('');
+  const [userName, setUsername] = useState('');
+
+  const { currentUser, logout } = useAuth();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (currentUser) {
+      const regex = /[^@]*/;
+      const match = regex.exec(currentUser.email);
+      setUsername(match);
+    }
+  }, [setUsername, currentUser]);
 
   const handleUserClick = () => {
     if (menu === false) {
       setMenu(true);
     } else {
       setMenu(false);
+    }
+  };
+
+  const handleLogOut = async (e) => {
+    setError('');
+
+    try {
+      await logout();
+      history.push('/login');
+    } catch (error) {
+      setError('Failed to log out');
     }
   };
 
@@ -82,12 +131,22 @@ const Navbar = () => {
             >
           </StyledSvg>
         </Link>
+        {currentUser && <StyledName to='/profile'>{userName}</StyledName>}
         <HoverMenu showMenu={menu ? 'block' : 'none'}>
-          <StyledLink to='/signup'>Sign Up</StyledLink>
-          <StyledLink to='/login'>Log In</StyledLink>
+          {currentUser ? (
+            <StyledP to='/logout' onClick={handleLogOut}>
+              Logout
+            </StyledP>
+          ) : (
+            <>
+              <StyledLink to='/signup'>Sign Up</StyledLink>
+              <StyledLink to='/login'>Log In</StyledLink>
+            </>
+          )}
         </HoverMenu>
         <StyledIcon icon={faUserCircle} size='2x' onClick={handleUserClick} opacity={menu ? 0.2 : 1} />
       </InnerNav>
+      {error && <Alert message={error} />}
     </Nav>
   );
 };

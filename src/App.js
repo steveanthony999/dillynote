@@ -4,14 +4,19 @@ import { AuthProvider } from './contexts/AuthContext';
 
 import GlobalStyle from './GlobalStyle';
 
+import PrivateRoute from './components/auth/PrivateRoute';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
+import Dashboard from './components/dilly/Dashboard';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Switch>
+          {/* Private Routes */}
+          <PrivateRoute exact path='/' component={Dashboard} />
+
           {/* Auth */}
           <Route path='/signup' component={Signup} />
           <Route path='/login' component={Login} />
