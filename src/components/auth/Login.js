@@ -66,31 +66,26 @@ const Header = styled.div`
   text-align: center;
 `;
 
-const Signup = () => {
+const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const emailRef = useRef();
   const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
 
-  const { signup } = useAuth();
+  const { login } = useAuth();
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError('Passwords do not match');
-    }
-
     try {
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await login(emailRef.current.value, passwordRef.current.value);
       history.push('/');
     } catch (error) {
-      setError('Failed to create an account');
+      setError('Failed to log in');
     }
 
     setLoading(false);
@@ -103,22 +98,26 @@ const Signup = () => {
         <Header>
           <h1>Welcome to Dilly Note</h1>
           <br />
-          <p>You're life's achievements are just a SIGNUP away!</p>
+          <p>You're life's achievements are just a LOGIN away!</p>
           <br />
           <br />
           <br />
           <br />
-          <h2>Sign Up</h2>
+          <h2>Log In</h2>
         </Header>
         <StyledForm onSubmit={handleSubmit}>
           <StyledInput type='email' ref={emailRef} required placeholder='Email' autoFocus />
           <StyledInput type='password' ref={passwordRef} required placeholder='Password' />
-          <StyledInput type='password' ref={passwordConfirmRef} required placeholder='Confirm Password' />
-          <StyledButton disabled={loading}>Sign Up</StyledButton>
+          <StyledButton disabled={loading}>Log In</StyledButton>
         </StyledForm>
         <Header>
           <p>
-            Already have an account? <Link to='/login'>Log In</Link>
+            <Link to='/forgot-password'>Forgot Password?</Link>
+          </p>
+          <br />
+          <br />
+          <p>
+            Need to make an account? <Link to='/signup'>Sign Up</Link>
           </p>
         </Header>
         {error && <Alert message={error} />}
@@ -127,4 +126,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
