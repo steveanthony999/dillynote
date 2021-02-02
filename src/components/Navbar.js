@@ -11,6 +11,7 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: fixed;
 `;
 
 const InnerNav = styled.div`
