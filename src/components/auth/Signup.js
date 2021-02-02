@@ -1,10 +1,11 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useAuth } from '../../contexts/AuthContext';
 
 import Navbar from '../Navbar';
+import Alert from '../../utils/Alert';
 
 const Main = styled.div`
   width: 100vw;
@@ -66,9 +67,33 @@ const Header = styled.div`
 `;
 
 const Signup = () => {
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
+
+  const { signup } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError('Passwords do not match');
+    }
+
+    try {
+      setError('');
+      setLoading(true);
+      await signup(emailRef.current.value, passwordRef.current.value);
+      //   history.push('/');
+    } catch (error) {
+      setError('Failed to create an account');
+    }
+
+    setLoading(false);
+  };
 
   return (
     <>
@@ -84,17 +109,18 @@ const Signup = () => {
           <br />
           <h2>Sign Up</h2>
         </Header>
-        <StyledForm>
+        <StyledForm onSubmit={handleSubmit}>
           <StyledInput type='email' ref={emailRef} required placeholder='Email' autoFocus />
           <StyledInput type='password' ref={passwordRef} required placeholder='Password' />
           <StyledInput type='password' ref={passwordConfirmRef} required placeholder='Confirm Password' />
-          <StyledButton>Sign Up</StyledButton>
+          <StyledButton disabled={loading}>Sign Up</StyledButton>
         </StyledForm>
         <Header>
           <p>
             Already have an account? <Link to='/login'>Log In</Link>
           </p>
         </Header>
+        {error && <Alert message={error} />}
       </Main>
     </>
   );
