@@ -66,6 +66,7 @@ const StyledLink = styled(Link)`
 const StyledP = styled.p`
   color: var(--color-secondary-light);
   margin-right: 1rem;
+  display: inline;
 
   &:hover {
     cursor: pointer;
@@ -78,9 +79,11 @@ const StyledName = styled(Link)`
   color: var(--color-secondary-light);
   margin-right: 1rem;
   font-size: 2rem;
+  transition: 0.2s;
 
   &:hover {
     text-decoration: underline;
+    transform: scale(1.1);
   }
 `;
 
@@ -134,9 +137,12 @@ const Navbar = () => {
         {currentUser && <StyledName to='/profile'>{userName}</StyledName>}
         <HoverMenu showMenu={menu ? 'block' : 'none'}>
           {currentUser ? (
-            <StyledP to='/logout' onClick={handleLogOut}>
-              Logout
-            </StyledP>
+            <>
+              <StyledLink to='/profile'>Profile</StyledLink>
+              <StyledP to='/logout' onClick={handleLogOut}>
+                Logout
+              </StyledP>
+            </>
           ) : (
             <>
               <StyledLink to='/signup'>Sign Up</StyledLink>

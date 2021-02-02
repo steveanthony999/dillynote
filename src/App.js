@@ -8,6 +8,7 @@ import PrivateRoute from './components/auth/PrivateRoute';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import Dashboard from './components/dilly/Dashboard';
+import Profile from './components/auth/Profile';
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
         <Switch>
           {/* Private Routes */}
           <PrivateRoute exact path='/' component={Dashboard} />
+
+          {/* User */}
+          <PrivateRoute path='/profile' component={Profile} />
 
           {/* Auth */}
           <Route path='/signup' component={Signup} />
