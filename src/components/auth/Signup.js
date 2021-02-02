@@ -2,6 +2,8 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { useAuth } from '../../contexts/AuthContext';
+
 import Navbar from '../Navbar';
 
 const Main = styled.div`
@@ -22,7 +24,7 @@ const StyledForm = styled.form`
 const StyledInput = styled.input`
   padding: 1rem 1rem;
   margin: 1rem 0;
-  background: var(--color-midtone);
+  background: var(--color-white);
   color: var(--color-primary-dark);
   border: none;
   border-bottom: 2px solid var(--color-primary-light);
