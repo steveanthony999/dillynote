@@ -1,5 +1,12 @@
+import Navbar from '../Navbar';
+
 const Signup = () => {
-  return <div>Signup</div>;
+  return (
+    <div>
+      <Navbar />
+      signup
+    </div>
+  );
 };
 
 export default Signup;

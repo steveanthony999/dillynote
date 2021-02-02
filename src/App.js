@@ -1,4 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import GlobalStyle from './GlobalStyle';
+
 import Signup from './components/auth/Signup';
 
 function App() {
@@ -8,6 +11,7 @@ function App() {
         {/* Auth */}
         <Route path='/signup' component={Signup} />
       </Switch>
+      <GlobalStyle />
     </Router>
   );
 }
