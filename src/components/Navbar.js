@@ -16,6 +16,7 @@ const Nav = styled.nav`
   align-items: center;
   justify-content: center;
   position: fixed;
+  z-index: 10;
 `;
 
 const InnerNav = styled.div`
@@ -33,6 +34,7 @@ const StyledSvg = styled.svg`
 
   &:hover {
     transform: scale(1.1);
+    fill: red;
   }
 `;
 
@@ -44,6 +46,7 @@ const StyledIcon = styled(FontAwesomeIcon)`
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
+    color: red;
   }
 `;
 
@@ -60,6 +63,7 @@ const StyledLink = styled(Link)`
 
   &:hover {
     text-decoration: underline;
+    color: red;
   }
 `;
 
@@ -71,6 +75,7 @@ const StyledP = styled.p`
   &:hover {
     cursor: pointer;
     text-decoration: underline;
+    color: red;
   }
 `;
 
@@ -84,6 +89,7 @@ const StyledName = styled(Link)`
   &:hover {
     text-decoration: underline;
     transform: scale(1.1);
+    color: red;
   }
 `;
 
