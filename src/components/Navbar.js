@@ -78,7 +78,7 @@ const StyledName = styled(Link)`
   text-decoration: none;
   color: var(--color-secondary-light);
   margin-right: 1rem;
-  font-size: 2rem;
+  font-size: 1.2rem;
   transition: 0.2s;
 
   &:hover {

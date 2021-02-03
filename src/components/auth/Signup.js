@@ -90,10 +90,9 @@ const Signup = () => {
       await signup(emailRef.current.value, passwordRef.current.value);
       history.push('/');
     } catch (error) {
+      setLoading(false);
       setError('Failed to create an account');
     }
-
-    setLoading(false);
   };
 
   return (
