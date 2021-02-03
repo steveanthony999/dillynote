@@ -72,15 +72,19 @@ const AddCategoryButton = ({ currentCategory }) => {
       setOpen(false);
     } else {
       setOpen(true);
+      setTitle('');
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (currentCategory === null) return;
+    setTitle('');
+    setOpen(false);
 
-    const path = [...currentCategory.path];
+    // if (currentCategory === null) return;
+
+    // const path = [...currentCategory.path];
   };
 
   const style = {
