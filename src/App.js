@@ -17,6 +17,7 @@ function App() {
         <Switch>
           {/* Private Routes */}
           <PrivateRoute exact path='/' component={Dashboard} />
+          <PrivateRoute exact path='/category/:categoryId' component={Dashboard} />
 
           {/* User */}
           <PrivateRoute path='/profile' component={Profile} />

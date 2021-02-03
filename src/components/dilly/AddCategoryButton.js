@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faPen } from '@fortawesome/free-solid-svg-icons';
 
+import { database } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext';
+import { ROOT_CATEGORY } from '../../hooks/useCategory';
 
 const StyledButton = styled.button`
   width: 30px;
@@ -79,12 +81,24 @@ const AddCategoryButton = ({ currentCategory }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (currentCategory === null) return;
+
+    const path = [...currentCategory.path];
+
+    if (currentCategory !== ROOT_CATEGORY) {
+      path.push({ title: currentCategory.title, id: currentCategory.id });
+    }
+
+    database.categories.add({
+      title: title,
+      parentId: currentCategory.id,
+      userId: currentUser.uid,
+      path: path,
+      createdAt: database.getCurrentTimestamp(),
+    });
+
     setTitle('');
     setOpen(false);
-
-    // if (currentCategory === null) return;
-
-    // const path = [...currentCategory.path];
   };
 
   const style = {
