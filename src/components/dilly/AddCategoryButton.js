@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faPen } from '@fortawesome/free-solid-svg-icons';
@@ -63,11 +63,16 @@ const FormButton = styled.button`
   }
 `;
 
-const AddCategoryButton = ({ currentCategory }) => {
+const AddCategoryButton = ({ currentCategory, passDeletionReady }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
+  const [deletionReady, setDeletionReady] = useState(false);
 
   const { currentUser } = useAuth();
+
+  useEffect(() => {
+    passDeletionReady(deletionReady);
+  }, [deletionReady, passDeletionReady]);
 
   const openTextField = () => {
     if (open) {
@@ -101,9 +106,25 @@ const AddCategoryButton = ({ currentCategory }) => {
     setOpen(false);
   };
 
+  const setForDeletion = () => {
+    if (deletionReady) {
+      setDeletionReady(false);
+    } else {
+      setDeletionReady(true);
+    }
+  };
+
   const style = {
     transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
     color: open ? 'red' : 'var(--color-primary-dark)',
+  };
+
+  const deleteStyle = {
+    width: deletionReady && '1.2rem',
+    height: deletionReady && '1.2rem',
+    background: deletionReady && 'red',
+    borderRadius: deletionReady && '50%',
+    color: deletionReady && 'var(--color-white)',
   };
 
   return (
@@ -132,7 +153,7 @@ const AddCategoryButton = ({ currentCategory }) => {
           </StyledButton>
           <br />
           <StyledButton>
-            <FontAwesomeIcon icon={faMinus} />
+            <FontAwesomeIcon icon={faMinus} onClick={setForDeletion} style={deleteStyle} />
           </StyledButton>
           <br />
           <StyledButton>

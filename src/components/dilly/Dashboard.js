@@ -6,6 +6,7 @@ import AddCategoryButton from './AddCategoryButton';
 import Category from './Category';
 import BreadCrumbs from './BreadCrumbs';
 import { useCategory } from '../../hooks/useCategory';
+import { useState } from 'react';
 
 const Main = styled.div`
   width: 100vw;
@@ -39,9 +40,14 @@ const ButtonContainer = styled.div`
 `;
 
 const Dashboard = () => {
+  const [deletionReady, setDeletionReady] = useState(false);
   const { categoryId } = useParams();
   const { state = {} } = useLocation();
   const { category, childCategories } = useCategory(categoryId, state.category);
+
+  const passDeletionReady = (e) => {
+    setDeletionReady(e);
+  };
 
   return (
     <Main>
@@ -52,14 +58,14 @@ const Dashboard = () => {
             <BreadCrumbs currentCategory={category} />
           </TopBarInner>
           <ButtonContainer>
-            <AddCategoryButton currentCategory={category} />
+            <AddCategoryButton currentCategory={category} passDeletionReady={passDeletionReady} />
           </ButtonContainer>
         </TopBar>
         {childCategories.length > 0 && (
           <div className='d-flex flex-wrap'>
             {childCategories.map((cat) => (
               <h3 key={cat.id} className='mr-3'>
-                <Category category={cat} />
+                <Category category={cat} deletionReady={deletionReady} />
               </h3>
             ))}
           </div>

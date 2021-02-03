@@ -1,25 +1,31 @@
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
-const StyledLink = styled(Link)`
-  color: var(--color-primary-dark);
+import { database } from '../../firebase';
 
-  &:hover {
-    text-decoration: none;
-    color: red;
-  }
-`;
+const Category = ({ category, deletionReady }) => {
+  const deleteCategory = (e) => {
+    database.categories
+      .doc(category.id)
+      .delete()
+      .then(() => console.log('deleted'))
+      .catch((err) => console.log(err));
+  };
 
-const Category = ({ category }) => {
   return (
-    <StyledLink
+    <Button
       to={{
         pathname: `/category/${category.id}`,
         state: { category: category },
       }}
+      variant={deletionReady === true ? 'danger' : 'dark'}
+      className='text-truncate w-100'
+      as={deletionReady ? null : Link}
+      size='lg'
+      onClick={deletionReady ? deleteCategory : null}
     >
       {category.title}
-    </StyledLink>
+    </Button>
   );
 };
 
