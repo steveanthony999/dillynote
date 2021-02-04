@@ -63,16 +63,21 @@ const FormButton = styled.button`
   }
 `;
 
-const AddCategoryButton = ({ currentCategory, passDeletionReady }) => {
+const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [deletionReady, setDeletionReady] = useState(false);
+  const [editReady, setEditReady] = useState(false);
 
   const { currentUser } = useAuth();
 
   useEffect(() => {
     passDeletionReady(deletionReady);
   }, [deletionReady, passDeletionReady]);
+
+  useEffect(() => {
+    passEditReady(editReady);
+  }, [editReady, passEditReady]);
 
   const openTextField = () => {
     if (open) {
@@ -106,11 +111,24 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady }) => {
     setOpen(false);
   };
 
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    console.log('edited');
+  };
+
   const setForDeletion = () => {
     if (deletionReady) {
       setDeletionReady(false);
-    } else {
+    } else if (!deletionReady && editReady !== true) {
       setDeletionReady(true);
+    }
+  };
+
+  const setForEdit = () => {
+    if (editReady) {
+      setEditReady(false);
+    } else if (!editReady && deletionReady !== true) {
+      setEditReady(true);
     }
   };
 
@@ -120,11 +138,20 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady }) => {
   };
 
   const deleteStyle = {
-    width: deletionReady && '1.2rem',
-    height: deletionReady && '1.2rem',
-    background: deletionReady && 'red',
-    borderRadius: deletionReady && '50%',
-    color: deletionReady && 'var(--color-white)',
+    width: deletionReady && !editReady && '1.2rem',
+    height: deletionReady && !editReady && '1.2rem',
+    background: deletionReady && !editReady && 'red',
+    borderRadius: deletionReady && !editReady && '50%',
+    color: deletionReady && !editReady && 'var(--color-white)',
+  };
+
+  const editStyle = {
+    width: editReady && !deletionReady && '1.4rem',
+    height: editReady && !deletionReady && '1.4rem',
+    background: editReady && !deletionReady && 'dodgerblue',
+    borderRadius: editReady && !deletionReady && '50%',
+    color: editReady && !deletionReady && 'var(--color-white)',
+    padding: editReady && !deletionReady && '0.2rem',
   };
 
   return (
@@ -132,7 +159,7 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady }) => {
       <Container>
         {open && (
           <FormContainer>
-            <StyledForm onSubmit={handleSubmit}>
+            <StyledForm onSubmit={editReady ? handleEditSubmit : handleSubmit}>
               <StyledInput
                 type='text'
                 value={title}
@@ -157,7 +184,7 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady }) => {
           </StyledButton>
           <br />
           <StyledButton>
-            <FontAwesomeIcon icon={faPen} />
+            <FontAwesomeIcon icon={faPen} onClick={setForEdit} style={editStyle} />
           </StyledButton>
         </div>
       </Container>

@@ -41,12 +41,17 @@ const ButtonContainer = styled.div`
 
 const Dashboard = () => {
   const [deletionReady, setDeletionReady] = useState(false);
+  const [editReady, setEditReady] = useState(false);
   const { categoryId } = useParams();
   const { state = {} } = useLocation();
   const { category, childCategories } = useCategory(categoryId, state.category);
 
   const passDeletionReady = (e) => {
     setDeletionReady(e);
+  };
+
+  const passEditReady = (e) => {
+    setEditReady(e);
   };
 
   return (
@@ -58,14 +63,18 @@ const Dashboard = () => {
             <BreadCrumbs currentCategory={category} />
           </TopBarInner>
           <ButtonContainer>
-            <AddCategoryButton currentCategory={category} passDeletionReady={passDeletionReady} />
+            <AddCategoryButton
+              currentCategory={category}
+              passDeletionReady={passDeletionReady}
+              passEditReady={passEditReady}
+            />
           </ButtonContainer>
         </TopBar>
         {childCategories.length > 0 && (
           <div className='d-flex flex-wrap'>
             {childCategories.map((cat) => (
               <h3 key={cat.id} className='mr-3'>
-                <Category category={cat} deletionReady={deletionReady} />
+                <Category category={cat} deletionReady={deletionReady} editReady={editReady} />
               </h3>
             ))}
           </div>
