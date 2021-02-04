@@ -63,9 +63,19 @@ const FormButton = styled.button`
   }
 `;
 
-const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady }) => {
+const EditFormContainer = styled.div`
+  height: 38px;
+  margin-right: 36px;
+  border: 1px solid var(--color-primary-dark);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+`;
+
+const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady, editFormOpen, editCategoryId }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
+  const [editTitle, setEditTitle] = useState('');
   const [deletionReady, setDeletionReady] = useState(false);
   const [editReady, setEditReady] = useState(false);
 
@@ -114,6 +124,18 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady }
   const handleEditSubmit = (e) => {
     e.preventDefault();
     console.log('edited');
+    database.categories
+      .doc(editCategoryId)
+      .update({
+        title: editTitle,
+      })
+      .then(() => console.log('updated'))
+      .catch((err) => console.log(err));
+
+    setEditTitle('');
+
+    // Reset Edit State
+    setEditReady(false);
   };
 
   const setForDeletion = () => {
@@ -157,23 +179,42 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady }
   return (
     <>
       <Container>
-        {open && (
-          <FormContainer>
-            <StyledForm onSubmit={editReady ? handleEditSubmit : handleSubmit}>
-              <StyledInput
-                type='text'
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder='Add Category'
-                required
-                autoFocus
-              />
-              <FormButton type='submit'>
-                <FontAwesomeIcon icon={faPlus} />
-              </FormButton>
-            </StyledForm>
-          </FormContainer>
-        )}
+        <div style={{ position: 'relative' }}>
+          {open && (
+            <FormContainer>
+              <StyledForm onSubmit={handleSubmit}>
+                <StyledInput
+                  type='text'
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder='Add Category'
+                  required
+                  autoFocus
+                />
+                <FormButton type='submit'>
+                  <FontAwesomeIcon icon={faPlus} />
+                </FormButton>
+              </StyledForm>
+            </FormContainer>
+          )}
+          {editFormOpen && (
+            <EditFormContainer>
+              <StyledForm onSubmit={handleEditSubmit}>
+                <StyledInput
+                  type='text'
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  placeholder='Edit Category Title'
+                  required
+                  autoFocus
+                />
+                <FormButton type='submit'>
+                  <FontAwesomeIcon icon={faPen} />
+                </FormButton>
+              </StyledForm>
+            </EditFormContainer>
+          )}
+        </div>
         <div>
           <StyledButton onClick={openTextField} style={style}>
             <FontAwesomeIcon icon={faPlus} />

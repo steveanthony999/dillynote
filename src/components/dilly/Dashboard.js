@@ -42,6 +42,9 @@ const ButtonContainer = styled.div`
 const Dashboard = () => {
   const [deletionReady, setDeletionReady] = useState(false);
   const [editReady, setEditReady] = useState(false);
+  const [categoryTitle, setCategoryTitle] = useState(false);
+  const [editCategoryId, setEditCategoryId] = useState('');
+  const [editFormOpen, setEditFormOpen] = useState(false);
   const { categoryId } = useParams();
   const { state = {} } = useLocation();
   const { category, childCategories } = useCategory(categoryId, state.category);
@@ -52,6 +55,18 @@ const Dashboard = () => {
 
   const passEditReady = (e) => {
     setEditReady(e);
+  };
+
+  const passEditFormOpen = (e) => {
+    setEditFormOpen(e);
+  };
+
+  const passCategoryTitle = (e) => {
+    setCategoryTitle(e);
+  };
+
+  const passCategoryId = (e) => {
+    setEditCategoryId(e);
   };
 
   return (
@@ -67,6 +82,9 @@ const Dashboard = () => {
               currentCategory={category}
               passDeletionReady={passDeletionReady}
               passEditReady={passEditReady}
+              editFormOpen={editFormOpen}
+              editCategoryId={editCategoryId}
+              categoryTitle={categoryTitle}
             />
           </ButtonContainer>
         </TopBar>
@@ -74,7 +92,14 @@ const Dashboard = () => {
           <div className='d-flex flex-wrap'>
             {childCategories.map((cat) => (
               <h3 key={cat.id} className='mr-3'>
-                <Category category={cat} deletionReady={deletionReady} editReady={editReady} />
+                <Category
+                  category={cat}
+                  deletionReady={deletionReady}
+                  editReady={editReady}
+                  passEditFormOpen={passEditFormOpen}
+                  passCategoryTitle={passCategoryTitle}
+                  passCategoryId={passCategoryId}
+                />
               </h3>
             ))}
           </div>
