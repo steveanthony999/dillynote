@@ -7,6 +7,7 @@ import Category from './Category';
 import BreadCrumbs from './BreadCrumbs';
 import { useCategory } from '../../hooks/useCategory';
 import { useState } from 'react';
+import AddListButton from './AddListButton';
 
 const Main = styled.div`
   width: 100vw;
@@ -104,6 +105,8 @@ const Dashboard = () => {
             ))}
           </div>
         )}
+        <hr />
+        <AddListButton />
       </Container>
     </Main>
   );
