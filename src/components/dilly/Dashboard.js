@@ -22,6 +22,8 @@ const Container = styled.div`
   height: 100%;
   padding-top: 60px;
   position: relative;
+  padding-left: 1rem;
+  padding-right: 1rem;
 `;
 
 const TopBar = styled.div`
@@ -38,6 +40,11 @@ const TopBarInner = styled.div`
 
 const ButtonContainer = styled.div`
   margin-left: auto;
+`;
+
+const StyledHorizontalRule = styled.hr`
+  border: 1px solid var(--color-primary-light);
+  margin: 2rem 0;
 `;
 
 const Dashboard = () => {
@@ -105,8 +112,14 @@ const Dashboard = () => {
             ))}
           </div>
         )}
-        <hr />
-        <AddListButton />
+        <StyledHorizontalRule />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '38px' }}>
+          <div></div>
+          <AddListButton currentCategory={category} />
+        </div>
+        <br />
+        <p style={{ textAlign: 'left' }}>Run</p>
+        <p style={{ textAlign: 'left' }}>Chest</p>
       </Container>
     </Main>
   );

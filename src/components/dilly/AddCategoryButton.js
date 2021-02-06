@@ -21,7 +21,7 @@ const StyledButton = styled.button`
   &:hover {
     cursor: pointer;
     color: red !important;
-    transform: scale(1.2);
+    transform: scale(1.2) !important;
   }
 `;
 
@@ -177,59 +177,57 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady, 
   };
 
   return (
-    <>
-      <Container>
-        <div style={{ position: 'relative' }}>
-          {open && (
-            <FormContainer>
-              <StyledForm onSubmit={handleSubmit}>
-                <StyledInput
-                  type='text'
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder='Add Category'
-                  required
-                  autoFocus
-                />
-                <FormButton type='submit'>
-                  <FontAwesomeIcon icon={faPlus} />
-                </FormButton>
-              </StyledForm>
-            </FormContainer>
-          )}
-          {editFormOpen && (
-            <EditFormContainer>
-              <StyledForm onSubmit={handleEditSubmit}>
-                <StyledInput
-                  type='text'
-                  value={editTitle}
-                  onChange={(e) => setEditTitle(e.target.value)}
-                  placeholder='Edit Category Title'
-                  required
-                  autoFocus
-                />
-                <FormButton type='submit'>
-                  <FontAwesomeIcon icon={faPen} />
-                </FormButton>
-              </StyledForm>
-            </EditFormContainer>
-          )}
-        </div>
-        <div>
-          <StyledButton onClick={openTextField} style={style}>
-            <FontAwesomeIcon icon={faPlus} />
-          </StyledButton>
-          <br />
-          <StyledButton>
-            <FontAwesomeIcon icon={faMinus} onClick={setForDeletion} style={deleteStyle} />
-          </StyledButton>
-          <br />
-          <StyledButton>
-            <FontAwesomeIcon icon={faPen} onClick={setForEdit} style={editStyle} />
-          </StyledButton>
-        </div>
-      </Container>
-    </>
+    <Container>
+      <div style={{ position: 'relative' }}>
+        {open && (
+          <FormContainer>
+            <StyledForm onSubmit={handleSubmit}>
+              <StyledInput
+                type='text'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder='Add Category'
+                required
+                autoFocus
+              />
+              <FormButton type='submit'>
+                <FontAwesomeIcon icon={faPlus} />
+              </FormButton>
+            </StyledForm>
+          </FormContainer>
+        )}
+        {editFormOpen && (
+          <EditFormContainer>
+            <StyledForm onSubmit={handleEditSubmit}>
+              <StyledInput
+                type='text'
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                placeholder='Edit Category Title'
+                required
+                autoFocus
+              />
+              <FormButton type='submit'>
+                <FontAwesomeIcon icon={faPen} />
+              </FormButton>
+            </StyledForm>
+          </EditFormContainer>
+        )}
+      </div>
+      <div>
+        <StyledButton onClick={openTextField} style={style}>
+          <FontAwesomeIcon icon={faPlus} />
+        </StyledButton>
+        <br />
+        <StyledButton>
+          <FontAwesomeIcon icon={faMinus} onClick={setForDeletion} style={deleteStyle} />
+        </StyledButton>
+        <br />
+        <StyledButton>
+          <FontAwesomeIcon icon={faPen} onClick={setForEdit} style={editStyle} />
+        </StyledButton>
+      </div>
+    </Container>
   );
 };
 
