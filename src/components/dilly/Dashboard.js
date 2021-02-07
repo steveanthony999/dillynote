@@ -57,17 +57,17 @@ const Dashboard = () => {
   const [editFormOpen, setEditFormOpen] = useState(false);
   const { categoryId } = useParams();
   const { state = {} } = useLocation();
-  const { category, childCategories, lists } = useCategory(categoryId, state.category);
-  // const [lists, setLists] = useState([
-  //   {
-  //     id: '001',
-  //     title: 'hello',
-  //   },
-  //   {
-  //     id: '002',
-  //     title: 'world',
-  //   },
-  // ]);
+  const { category, childCategories } = useCategory(categoryId, state.category);
+  const [lists, setLists] = useState([
+    {
+      id: '001',
+      title: 'hello',
+    },
+    {
+      id: '002',
+      title: 'world',
+    },
+  ]);
 
   useEffect(() => {
     // db.collection('lists')
@@ -81,8 +81,14 @@ const Dashboard = () => {
     // database.lists.get().then((querySnapshot) => {
     //   querySnapshot.forEach((doc) => console.log(doc.data().title));
     // });
-    console.log(lists);
-  }, []);
+
+    // database.categories.get().then((snap) => {
+    //   snap.forEach((doc) => console.log(doc.data().list));
+    // });
+    if (category.list) {
+      category.list.map((e) => console.log(e.title));
+    }
+  }, [category]);
 
   const passDeletionReady = (e) => {
     setDeletionReady(e);
