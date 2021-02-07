@@ -57,23 +57,31 @@ const Dashboard = () => {
   const [editFormOpen, setEditFormOpen] = useState(false);
   const { categoryId } = useParams();
   const { state = {} } = useLocation();
-  const { category, childCategories } = useCategory(categoryId, state.category);
-  const [lists, setLists] = useState([
-    {
-      id: '001',
-      title: 'hello',
-    },
-    {
-      id: '002',
-      title: 'world',
-    },
-  ]);
+  const { category, childCategories, lists } = useCategory(categoryId, state.category);
+  // const [lists, setLists] = useState([
+  //   {
+  //     id: '001',
+  //     title: 'hello',
+  //   },
+  //   {
+  //     id: '002',
+  //     title: 'world',
+  //   },
+  // ]);
 
   useEffect(() => {
-    // HERE IS WHERE I WANT TO FETCH
-    // const x = database.lists.doc('2FTFoeLCop53abIuvBxC');
-    // x.get().then((doc) => setLists((lists) => [...lists, { ...lists, id: doc.data().id, title: doc.data().title }]));
-    // x.get().then((e) => console.log(e));
+    // db.collection('lists')
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       setLists((lists) => [...lists, { ...lists, id: doc.id, title: doc.data().title }]);
+    //     });
+    //   });
+
+    // database.lists.get().then((querySnapshot) => {
+    //   querySnapshot.forEach((doc) => console.log(doc.data().title));
+    // });
+    console.log(lists);
   }, []);
 
   const passDeletionReady = (e) => {
