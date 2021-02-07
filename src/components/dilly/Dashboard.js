@@ -6,8 +6,10 @@ import AddCategoryButton from './AddCategoryButton';
 import Category from './Category';
 import BreadCrumbs from './BreadCrumbs';
 import { useCategory } from '../../hooks/useCategory';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddListButton from './AddListButton';
+import List from './List';
+import { database } from '../../firebase';
 
 const Main = styled.div`
   width: 100vw;
@@ -56,6 +58,27 @@ const Dashboard = () => {
   const { categoryId } = useParams();
   const { state = {} } = useLocation();
   const { category, childCategories } = useCategory(categoryId, state.category);
+  const [lists, setLists] = useState([
+    {
+      id: '001',
+      title: 'hello',
+    },
+    {
+      id: '002',
+      title: 'world',
+    },
+  ]);
+
+  useEffect(() => {
+    // const x = database.lists.doc('2FTFoeLCop53abIuvBxC');
+
+    // x.get().then((doc) => setLists((lists) => [...lists, { ...lists, id: doc.data().id, title: doc.data().title }]));
+    const x = database.lists;
+
+    console.log(x._);
+
+    // x.get().then((e) => console.log(e));
+  }, []);
 
   const passDeletionReady = (e) => {
     setDeletionReady(e);
@@ -118,8 +141,11 @@ const Dashboard = () => {
           <AddListButton currentCategory={category} />
         </div>
         <br />
-        <p style={{ textAlign: 'left' }}>Run</p>
-        <p style={{ textAlign: 'left' }}>Chest</p>
+        {lists.map((item) => (
+          <div key={item.id}>
+            <List list={item} />
+          </div>
+        ))}
       </Container>
     </Main>
   );

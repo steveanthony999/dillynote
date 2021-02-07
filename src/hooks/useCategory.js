@@ -6,6 +6,7 @@ const ACTIONS = {
   SELECT_CATEGORY: 'select-category',
   UPDATE_CATEGORY: 'update-category',
   SET_CHILD_CATEGORIES: 'set-child-categories',
+  SET_CHILD_LISTS: 'set-child-lists',
 };
 
 // Root category object. 'fake root category'
@@ -18,7 +19,7 @@ const reducer = (state, { type, payload }) => {
         categoryId: payload.categoryId,
         category: payload.category,
         childCategories: [],
-        childLists: [],
+        lists: [],
       };
     case ACTIONS.UPDATE_CATEGORY:
       return {
@@ -30,6 +31,11 @@ const reducer = (state, { type, payload }) => {
         ...state,
         childCategories: payload.childCategories,
       };
+    case ACTIONS.SET_CHILD_LISTS:
+      return {
+        ...state,
+        lists: payload.lists,
+      };
     default:
       return state;
   }
@@ -40,7 +46,7 @@ export function useCategory(categoryId = null, category = null) {
     categoryId,
     category,
     childCategories: [],
-    childLists: [],
+    lists: [],
   });
 
   const { currentUser } = useAuth();
@@ -84,6 +90,19 @@ export function useCategory(categoryId = null, category = null) {
         dispatch({
           type: ACTIONS.SET_CHILD_CATEGORIES,
           payload: { childCategories: snapshot.docs.map(database.formatDoc) },
+        });
+      });
+  }, [categoryId, currentUser]);
+
+  useEffect(() => {
+    return database.lists
+      .where('categoryId', '==', categoryId)
+      .where('userId', '==', currentUser.uid)
+      .orderBy('createdAt')
+      .onSnapshot((snapshot) => {
+        dispatch({
+          type: ACTIONS.SET_CHILD_LISTS,
+          payload: { lists: snapshot.docs.map(database.formatDoc) },
         });
       });
   }, [categoryId, currentUser]);
