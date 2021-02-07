@@ -70,13 +70,9 @@ const Dashboard = () => {
   ]);
 
   useEffect(() => {
+    // HERE IS WHERE I WANT TO FETCH
     // const x = database.lists.doc('2FTFoeLCop53abIuvBxC');
-
     // x.get().then((doc) => setLists((lists) => [...lists, { ...lists, id: doc.data().id, title: doc.data().title }]));
-    const x = database.lists;
-
-    console.log(x._);
-
     // x.get().then((e) => console.log(e));
   }, []);
 
