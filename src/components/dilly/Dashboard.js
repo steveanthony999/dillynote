@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useLocation } from 'react-router-dom';
 
@@ -6,10 +7,8 @@ import AddCategoryButton from './AddCategoryButton';
 import Category from './Category';
 import BreadCrumbs from './BreadCrumbs';
 import { useCategory } from '../../hooks/useCategory';
-import { useState, useEffect } from 'react';
 import AddListButton from './AddListButton';
 import List from './List';
-import { database } from '../../firebase';
 
 const Main = styled.div`
   width: 100vw;
@@ -58,37 +57,6 @@ const Dashboard = () => {
   const { categoryId } = useParams();
   const { state = {} } = useLocation();
   const { category, childCategories } = useCategory(categoryId, state.category);
-  const [lists, setLists] = useState([
-    {
-      id: '001',
-      title: 'hello',
-    },
-    {
-      id: '002',
-      title: 'world',
-    },
-  ]);
-
-  useEffect(() => {
-    // db.collection('lists')
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //       setLists((lists) => [...lists, { ...lists, id: doc.id, title: doc.data().title }]);
-    //     });
-    //   });
-
-    // database.lists.get().then((querySnapshot) => {
-    //   querySnapshot.forEach((doc) => console.log(doc.data().title));
-    // });
-
-    // database.categories.get().then((snap) => {
-    //   snap.forEach((doc) => console.log(doc.data().list));
-    // });
-    if (category.list) {
-      category.list.map((e) => console.log(e.title));
-    }
-  }, [category]);
 
   const passDeletionReady = (e) => {
     setDeletionReady(e);
@@ -151,11 +119,15 @@ const Dashboard = () => {
           <AddListButton currentCategory={category} />
         </div>
         <br />
-        {lists.map((item) => (
-          <div key={item.id}>
-            <List list={item} />
+        {category && category.list && category.list.length > 0 && (
+          <div>
+            {category.list.map((item, index) => (
+              <div key={index}>
+                <List list={item} />
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </Container>
     </Main>
   );

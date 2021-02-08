@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { database } from '../../firebase';
-import { useAuth } from '../../contexts/AuthContext';
-import { ROOT_CATEGORY } from '../../hooks/useCategory';
 
 const Container = styled.div`
   display: flex;
@@ -79,8 +77,6 @@ const AddListButton = ({ currentCategory }) => {
   const [open, setOpen] = useState(false);
   const [listItem, setListItem] = useState('');
 
-  const { currentUser } = useAuth();
-
   const openTextField = (e) => {
     if (open) {
       setOpen(false);
@@ -93,20 +89,8 @@ const AddListButton = ({ currentCategory }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (currentCategory === null) return;
-
-    const path = [...currentCategory.path];
-
-    if (currentCategory !== ROOT_CATEGORY) {
-      path.push({ title: currentCategory.title, id: currentCategory.id });
-    }
-
-    database.lists.add({
-      title: listItem,
-      parentId: currentCategory.id,
-      userId: currentUser.uid,
-      path: path,
-      createdAt: database.getCurrentTimestamp(),
+    database.categories.doc(currentCategory.id).update({
+      list: database.addToArray({ title: listItem }),
     });
 
     setListItem('');
