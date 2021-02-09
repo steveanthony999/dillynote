@@ -19,7 +19,7 @@ const Category = ({ category, deletionReady, editReady, passCategoryTitle, passC
     passCategoryTitle(categoryTitle);
     passCategoryId(categoryId);
     passEditFormOpen(editFormOpen);
-  }, [editFormOpen]);
+  }, [editFormOpen, passCategoryTitle, categoryId, passCategoryId, passEditFormOpen, categoryTitle]);
 
   const deleteCategory = () => {
     database.categories

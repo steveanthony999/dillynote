@@ -89,7 +89,9 @@ const AddListButton = ({ currentCategory }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    database.categories.doc(currentCategory.id).update({
+    const x = database.categories.doc(currentCategory.id);
+
+    x.update({
       list: database.addToArray({ title: listItem }),
     });
 

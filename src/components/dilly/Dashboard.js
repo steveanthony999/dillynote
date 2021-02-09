@@ -116,7 +116,13 @@ const Dashboard = () => {
         <StyledHorizontalRule />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '38px' }}>
           <div></div>
-          <AddListButton currentCategory={category} />
+          {category && category.title === '>>>' ? (
+            ''
+          ) : (
+            <>
+              <AddListButton currentCategory={category} />
+            </>
+          )}
         </div>
         <br />
         {category && category.list && category.list.length > 0 && (
