@@ -115,7 +115,6 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady, 
       userId: currentUser.uid,
       path: path,
       createdAt: database.getCurrentTimestamp(),
-      list: [],
     });
 
     setTitle('');

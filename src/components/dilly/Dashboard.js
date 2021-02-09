@@ -56,7 +56,7 @@ const Dashboard = () => {
   const [editFormOpen, setEditFormOpen] = useState(false);
   const { categoryId } = useParams();
   const { state = {} } = useLocation();
-  const { category, childCategories } = useCategory(categoryId, state.category);
+  const { category, childCategories, lists } = useCategory(categoryId, state.category);
 
   const passDeletionReady = (e) => {
     setDeletionReady(e);
@@ -125,11 +125,11 @@ const Dashboard = () => {
           )}
         </div>
         <br />
-        {category && category.list && category.list.length > 0 && (
+        {lists.length > 0 && (
           <div>
-            {category.list.map((item, index) => (
-              <div key={index}>
-                <List list={item} />
+            {lists.map((childFile) => (
+              <div key={childFile.id} style={{ maxWidth: '250px' }} className='p-2'>
+                <List list={childFile} />
               </div>
             ))}
           </div>
