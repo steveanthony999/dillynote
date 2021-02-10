@@ -22,10 +22,50 @@ const Category = ({ category, deletionReady, editReady, passCategoryTitle, passC
   }, [editFormOpen, passCategoryTitle, categoryId, passCategoryId, passEditFormOpen, categoryTitle]);
 
   const deleteCategory = () => {
+    // Also deletes all lists collections pointing to this
     database.categories
       .doc(category.id)
       .delete()
-      .then(() => console.log('deleted'))
+      .then(() => {
+        database.lists.where('categoryId', '==', category.id).onSnapshot((snapshot) => {
+          snapshot.docs.forEach((listItem) => {
+            database.lists.doc(listItem.id).delete();
+          });
+        });
+      })
+      .then(() => {
+        database.categories.onSnapshot((snapshot) => {
+          // snapshot.docs.forEach((item) => {
+          // const itemParent = item.data().parentId; // This is the parentId of every category
+
+          database.categories
+            .doc(category.id)
+            .delete()
+            .then(() => {
+              database.categories.where('parentId', '==', category.id).onSnapshot((snapshot) => {
+                snapshot.docs.forEach((cat) => {
+                  database.categories.doc(cat.id).delete();
+                });
+              });
+            })
+            .then(() => {
+              // database.categories.onSnapshot((snapshot) => {
+              //   snapshot.docs.map((x) => {
+              //     const path = x.data().path;
+              //     path.forEach((x) => {
+              //       let pathId = x.id;
+              //       database.categories.where('path', '==', category.id).onSnapshot((snapshot) => {
+              //         snapshot.docs.forEach((cat) => {
+              //           database.categories.doc(cat.id).delete();
+              //         });
+              //       });
+              //     });
+              //   });
+              // });
+            });
+          // });
+        });
+      })
       .catch((err) => console.log(err));
   };
 

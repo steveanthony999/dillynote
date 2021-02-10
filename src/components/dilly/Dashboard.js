@@ -115,11 +115,11 @@ const Dashboard = () => {
         )}
         <StyledHorizontalRule />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '38px' }}>
-          <div></div>
           {category && category.title === '>>>' ? (
             ''
           ) : (
             <>
+              {category && <h2>{category.title} goals</h2>}
               <AddListButton currentCategory={category} />
             </>
           )}
@@ -128,7 +128,7 @@ const Dashboard = () => {
         {lists.length > 0 && (
           <div>
             {lists.map((childFile) => (
-              <div key={childFile.id} style={{ maxWidth: '250px' }} className='p-2'>
+              <div key={childFile.id} style={{ maxWidth: '250px' }} className='p-1'>
                 <List list={childFile} />
               </div>
             ))}

@@ -1,5 +1,5 @@
 const List = ({ list }) => {
-  return <p>{list.title}</p>;
+  return <>{list.title}</>;
 };
 
 export default List;
