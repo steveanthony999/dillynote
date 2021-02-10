@@ -9,7 +9,6 @@ const ACTIONS = {
   SET_CHILD_LISTS: 'set-child-lists',
 };
 
-// Root category object. 'fake root category'
 export const ROOT_CATEGORY = { title: '>>>', id: null, path: [] };
 
 const reducer = (state, { type, payload }) => {
@@ -51,7 +50,6 @@ export function useCategory(categoryId = null, category = null) {
 
   const { currentUser } = useAuth();
 
-  //   Resets initial state
   useEffect(() => {
     dispatch({ type: ACTIONS.SELECT_CATEGORY, payload: { categoryId, category } });
   }, [categoryId, category]);

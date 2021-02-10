@@ -123,12 +123,10 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady, 
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    // console.log('edited');
     database.categories
       .doc(editCategoryId)
       .update({
         title: editTitle,
-        // path: 'hi',
       })
       .then(() => {
         console.log('updated');
@@ -137,15 +135,7 @@ const AddCategoryButton = ({ currentCategory, passDeletionReady, passEditReady, 
 
     setEditTitle('');
 
-    // Reset Edit State
     setEditReady(false);
-
-    // const x = database.lists.where('categoryId', '==', categoryId);
-    // x.onSnapshot((snapshot) =>
-    //   snapshot.docs.forEach((listItem) => {
-    //     database.lists.doc(listItem.id).delete();
-    //   })
-    // );
   };
 
   const setForDeletion = () => {
